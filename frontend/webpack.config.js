@@ -42,9 +42,10 @@ module.exports = {
         }),
         new webpack.NamedModulesPlugin(),
         new webpack.LoaderOptionsPlugin({
-            debug: true
+            debug: true,
         }),
     ],
+
     module: {
         loaders: [
             {
@@ -52,28 +53,9 @@ module.exports = {
                 exclude: /node_modules/,
                 loaders: ['happypack/loader'],
             },
-            {
-                // Load JSON as an import
-                test: /\.json$/,
-                loader: 'json',
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true,
-                            importLoaders: 1,
-                            localIdentName: '[name]--[local]--[hash:base64:8]'
-                        }
-                    },
-                    'postcss-loader' // has separate config, see postcss.config.js nearby
-                ]
-            },
-
+            { test: /\.json$/, loader: 'json' },
+            { test: /\.css$/, loader: 'style-loader!css-loader' },
+            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
         ]
     },
     resolve: {
